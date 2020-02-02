@@ -19,6 +19,17 @@ public:
         sum.y=y+a.y;
         return sum;
     }
+    point operator -(point &a )
+    {
+        point sum;
+        sum.x=x-a.x;
+        sum.y=y-a.y;
+        return sum;
+    }
+    point operator -()
+    {
+        return point(-x,-y);
+    }
     friend point operator +(const point & a,const  point & b)
     {
         point sum={a.x+b.x,a.y+b.y};
@@ -72,5 +83,7 @@ int main()
     X=X+Y;
     X.show();
     cout<<(X.operator+(Y))<<endl;
+    X=-X;
+    X.show();
 
 }
