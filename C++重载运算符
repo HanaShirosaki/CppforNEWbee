@@ -1,0 +1,76 @@
+#include <iostream>
+#include"PRINT.H"
+using namespace std;
+
+class point
+{
+private:
+    int x;
+    int y;
+public:
+    point(){}
+    point(int x,int y):x(x),y(y){}
+    ~point(){}
+    void show()const;
+    point operator +(point & a)
+    {
+        point sum;
+        sum.x=x+a.x;
+        sum.y=y+a.y;
+        return sum;
+    }
+    friend point operator +(const point & a,const  point & b)
+    {
+        point sum={a.x+b.x,a.y+b.y};
+        return sum;
+    }
+    friend point operator * (double T,const point &Z);
+    friend point operator * (const point &Z,double T);
+    friend point operator * (double T,const point &Z)
+    {
+         point sum;
+         sum.x=T*Z.x;
+         sum.y=T*Z.y;
+         return sum;
+    }
+
+    friend point operator * (const point &Z,double T)
+    {
+        point sum;
+        sum.x=T*Z.x;
+        sum.y=T*Z.y;
+        return sum;
+    }
+    friend ostream & operator << (ostream & os ,const point & t)
+    {
+        os<<"X的值是"<<t.x<<"  Y的值是"<<t.y<<endl;
+        return os;
+    }
+};
+void point::show(void)const
+{
+    printf("x==%d y==%d\n",x,y);
+}
+enum class  baisi_D{d_12,d_13,d_14=30};
+int main()
+{
+    const point a ={1,2};
+    point *b=new point {1,2};
+    a.show();
+    b->show();
+
+    baisi_D mybaisi=baisi_D::d_12;
+    printf("%d\n",static_cast<int32_t>(mybaisi));
+
+    point X={1,2};
+    point Y={1,2};
+    point Z={1,2};
+    X=X.operator+(Y);
+    X.show();
+    X=2*X;
+    X=X*2;
+    X=X+Y;
+    X.show();
+    cout<<(X.operator+(Y))<<endl;
+
+}
