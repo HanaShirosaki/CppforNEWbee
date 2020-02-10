@@ -1,0 +1,62 @@
+#include<bits/stdtr1c++.h>
+#include"PRINT.H"
+using namespace std;
+
+class point
+{
+private:
+    double x;
+    double y;
+
+public:
+    point(){}
+    point(double x1,double y1):x(x1),y(y1){}
+
+    double & getdistance ()const
+    {
+        double z=sqrt( x*x+y*y  );
+        printf("%.6f\n",z);
+        return z;
+    }
+    virtual ~point(){}
+
+};
+class circle : public point
+{
+private :
+    double r;
+public:
+    circle(){}
+    circle(point a,double r):point(a),r(r){}
+    circle(double x1,double y1,double r1):point(x1,y1)
+    {
+        r=r1;//注意不能直接写x(x1),y(y1),r(r1)。因为x,y是父类私有的。
+    }
+    double getdistance() const       //虽然叫距离，实际上是求面积，为了测试同名函数。
+    {
+        printf("%.6f\n",acos(-1.0)*r*r);
+        return acos(-1.0)*r*r;
+    }
+    virtual ~circle(){}
+};
+
+int main()
+{
+
+    point   A  =point(1,2);
+    circle  B  =circle(A,3);
+    point &C1=A;
+    point &C2=B;
+    C1.getdistance();
+    C2.getdistance();//2.236068;
+
+    point * PT = &A;
+    PT->getdistance();
+    PT=&B;
+    PT->getdistance();//2.236068; 
+    //因为没有使用虚函数，所以指针和引用执行哪个成员函数都看指针和引用的类型，由于引用和指针都是point类型，所以就算的是到原点距离。
+
+
+
+
+}
