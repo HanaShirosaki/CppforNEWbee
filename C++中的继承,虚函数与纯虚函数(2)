@@ -59,6 +59,7 @@ int main()
     PT->getdistance();//28.274334
     //这里使用了虚函数防法，所以该执行哪个就执行哪个。
     //注意这里的circle中的distance函数只用了r，是因为这是他自己的成员，如果想用x，y是不能直接调用的因为是父类的私有的。
+    //c++perimer第501页错误，应该为 “如果Brass::ViewAcct()没有被声明为虚的，因为p_clients * 的类型是Brass * ，则一定只执行Brass::ViewAcct()”
 
 
 
