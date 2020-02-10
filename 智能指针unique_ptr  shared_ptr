@@ -1,0 +1,46 @@
+#include <bits/stdc++.h>
+using namespace std;
+unique_ptr<int> unique_ptr_ctor(const int & n)
+{
+    return unique_ptr<int>(new int (n));
+}
+void show(unique_ptr<int>&pt)
+{
+    cout<<*pt<<" "<<endl;
+}
+int main()
+{
+    unique_ptr<int32_t>pt1,pt2;
+    int32_t A=10;
+    int32_t B=20;
+    pt1=unique_ptr<int>(&A);
+    pt2=unique_ptr<int>(&B);
+    pt2=std::move(pt1);
+    pt1=unique_ptr<int>(new int (199));
+    printf("%d %d\n",*pt1,*pt2);
+
+
+    vector<unique_ptr<int>>vect;
+
+
+    for(int i=1;i<=100;i++)vect.push_back( unique_ptr_ctor(i) );
+
+    for_each(vect.begin(),vect.end(),show);
+
+
+    shared_ptr<int>PT1=shared_ptr<int>(&A);
+
+    shared_ptr<int>PT2=shared_ptr<int>(&A);
+
+    shared_ptr<int>PT3(PT2),PT4(PT2);
+    (*PT1)++;
+
+    printf("%d %d %d %d \n",*PT1,*PT2,*PT3,*PT4);
+
+
+
+
+
+
+
+}
