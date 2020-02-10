@@ -1,0 +1,77 @@
+//这个调试了很久。
+//主要思考了几个问题，很多资料说纯虚函数不能实体化为对象，这个我是懂的。但是有一句"不能在构造函数和析构函数中调用纯虚函数"。
+想了好久，甚至想到了构造函数的问题， 因为子类的初始化必须用到父类的构造函数，除非这些私有的值不适用。
+然后最后还想到了类的内存分配的问题，最后找出来bug是因为我在函数体内部声明了个临时变量，在临时变量去世的时候调用了析构函数。
+所以发生了bug。这个其实是属于作用域的问题。我的指针没想好。这个小问题困扰了我半天，总算是解决了。
+
+#include<bits/stdtr1c++.h>
+#include"PRINT.H"
+using namespace std;
+
+class point
+{
+private:
+    double x;
+    double y;
+public:
+    point(){}
+    point(double x1,double y1):x(x1),y(y1){}
+    virtual void getarea()const=0 ;
+    virtual ~point(){}
+
+};
+class circle : public point
+{
+private :
+    double r;
+public:
+    circle(){}
+    circle(double x1,double y1, double r1):point(x1,y1),r(r1){}
+    void getarea() const
+    {
+        printf("圆的面积 %.2f\n",acos(-1.0)*r*r);
+        return ;
+    }
+    virtual ~circle(){}
+
+};
+class square :public point
+{
+private :
+    double a;
+public:
+    square(){}
+    square(double x1,double y1,double a1):point(x1,y1),a(a1){}
+
+    void getarea()const
+    {
+        printf("正方形的面积 %.2f\n",a*a);
+        return;
+    }
+    virtual ~square(){}
+};
+int main()
+{
+    point * pt=nullptr;
+    circle t;
+    square s;
+
+    for(int i=0;i<10;i++)
+    {
+        if(i&1)
+        {
+            circle t1(i,i+1,i+1);
+            t=t1;
+            pt=&t;
+        }
+
+        else
+        {
+            square s1(i,i+1,i+1);
+            s=s1;
+            pt=&s;
+        }
+        pt->getarea();// 会显示不同的构造函数。本来写了个错的，是在函数体里生命了临时的S,T然后指向了这个死去的变量。
+
+    }
+}
