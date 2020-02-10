@@ -1,0 +1,65 @@
+#include<bits/stdtr1c++.h>
+#include"PRINT.H"
+using namespace std;
+
+class point
+{
+private:
+    double x;
+    double y;
+
+public:
+    point(){}
+    point(double x1,double y1):x(x1),y(y1){}
+
+    virtual double  getdistance ()const;
+    virtual ~point(){}
+
+};
+class circle : public point
+{
+private :
+    double r;
+public:
+    circle(){}
+    circle(point a,double r):point(a),r(r){}
+    circle(double x1,double y1,double r1):point(x1,y1)
+    {
+        r=r1;
+    }
+    double  getdistance() const ;      //虽然叫距离，实际上是求面积，为了测试同名函数。
+
+    virtual ~circle(){}
+};
+double  point::getdistance()const
+{
+    double z=(double)sqrt(x*x+y*y);
+    printf("%.6f\n",z);
+    return z;
+}
+double circle::getdistance()const
+{
+    double  z=acos(-1.0)*r*r;
+    printf("%.6f\n",z);
+    return z;
+}
+int main()
+{
+
+    point   A  =point(1,2);
+    circle  B  =circle(A,3);
+    point &C1=A;
+    point &C2=B;
+    C1.getdistance();//2.236068
+    C2.getdistance();//28.274334
+
+    point * PT = &A;
+    PT->getdistance();//2.236068
+    PT=&B;
+    PT->getdistance();//28.274334
+    //这里使用了虚函数防法，所以该执行哪个就执行哪个。
+
+
+
+
+}
