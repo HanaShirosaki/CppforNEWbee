@@ -1,0 +1,69 @@
+#include<bits/stdtr1c++.h>
+#include"PRINT.H"
+using namespace std;
+
+class point
+{
+protected:
+    double x;
+    double y;
+
+public:
+    point(){}
+    point(double x1,double y1):x(x1),y(y1){}
+    double getx()const{return x;}
+    double gety()const{return y;}
+
+    virtual double  getdistance ()const
+    {
+        double z=(double)sqrt(x*x+y*y);
+        printf("%.6f\n",z);
+        return z;
+    }
+    virtual ~point(){}
+
+};
+class circle : public point
+{
+private :
+    double r;
+public:
+    circle(){}
+    circle(point a,double r):point(a),r(r){}
+    circle(double x1,double y1,double r1):point(x1,y1)
+    {
+        r=r1;
+    }
+    double  getdistance() const      //虽然叫距离，实际上是求面积，为了测试同名函数。
+    {
+        double z=(acos(-1.0)*r*r);
+        double tempx=x;
+        double tempy=y;//因为使用了保护访问，所以这个地方可以直接使用。
+        printf("%.6f\n",tempx+tempy);
+        return z;
+    }
+    void change()
+    {
+        x*=100;
+        y*=100;
+    }
+
+    virtual ~circle(){}
+};
+int main()
+{
+
+    point   A  =point(1,2);
+    circle  B  =circle(A,3);
+    point &C1=A;
+    point &C2=B;
+    C1.getdistance();
+    C2.getdistance();//2.236068;
+    point * PT = &A;
+    PT->getdistance();
+    PT=&B;
+    PT->getdistance();// 2.236068
+
+    B.change();
+    B.getdistance();//输出300.因为使用了保护控制，这个地方可以修改了，也是一个值得注意的问题，实际上私有保护出了问题，
+}
