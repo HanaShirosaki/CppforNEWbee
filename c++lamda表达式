@@ -1,0 +1,40 @@
+说实话这部分代码看起来晦涩难懂，只能写个简单的东西。不过大概懂了为什么有这个东西，还是为了方便把。
+有时候写简短的函数直接不匿名会十分方便。
+#include <bits/stdc++.h>
+using namespace std;
+#include"PRINT.h"
+class point
+{
+public:
+    int x;
+    int y;
+public:
+
+    point(){}
+    point(int x,int y):x(x),y(y){}
+    friend bool operator < (const point & a,const point & b)
+    {
+        if(a.x!=b.x)return a.x<b.x;
+        return a.y<b.y;
+    }
+    friend ostream & operator << ( ostream & os,const point &  a)
+    {
+        os<<a.x<<" "<<a.y<<endl;
+    }
+};
+int main()
+{
+    auto sum=[&](int a,int b)->int{return a+b;};
+    printf("%d\n",sum(3,6));
+
+    point sumpoints[]={ {1,2},{-1,2},{-1,3},{1,1},{2,1}};
+
+    std::sort(sumpoints,sumpoints+5,[](const point &a,const point &b)->bool{if(a.x!=b.x)return a.x<b.x;return a.y<b.y;});
+    for(int i=0;i<5;i++)cout<<sumpoints[i]<<endl;
+    huanhang();
+
+    std::sort(sumpoints,sumpoints+5,[](const point &a,const point &b)->bool{if( a.x!=b.x) return a.x>b.x;return a.y>b.y;});
+
+    for(int i=0;i<5;i++)cout<<sumpoints[i]<<endl;
+
+}
