@@ -60,4 +60,5 @@ int main()
     PT->getdistance();
     PT=&B;
     PT->getdistance();// 2.236068
+    delete PT;
 }
